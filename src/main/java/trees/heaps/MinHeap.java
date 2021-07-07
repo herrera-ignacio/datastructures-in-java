@@ -1,20 +1,15 @@
 package trees.heaps;
 
-public class MinHeap implements IMinHeap {
-    private int[] Heap;
-    private int size;
-    private final int maxsize;
+import java.util.NoSuchElementException;
 
-    private static final int FRONT = 1;
+public class MinHeap extends BinaryHeap implements IMinHeap {
     /**
      * Constructor
      * @param maxsize max nodes the heap can contain
      */
     public MinHeap(int maxsize)
     {
-        this.maxsize = maxsize;
-        this.size = 0;
-        this.Heap = new int[this.maxsize + 1];
+        super(maxsize);
         this.Heap[0] = Integer.MIN_VALUE;
     }
 
@@ -38,14 +33,12 @@ public class MinHeap implements IMinHeap {
     @Override
     public void insert(int element)
     {
-        if (size >= maxsize) {
-            System.out.println("[INFO] Heap is full, failed to insert: " + element);
-            return;
-        }
+        if (this.size >= maxsize)
+            throw new IllegalStateException("Heap is full");
 
-        Heap[++size] = element;
+        Heap[++this.size] = element;
 
-        int current = size;
+        int current = this.size;
 
         // "Bubble up" the min
         while (Heap[current] < Heap[parent(current)]) {
@@ -55,28 +48,19 @@ public class MinHeap implements IMinHeap {
     }
 
     /**
-     * Print the contents of the heap
-     */
-    @Override
-    public void print()
-    {
-        for (int i = 1; i <= size / 2; i++) {
-            System.out.print(" NODE: " + Heap[i]
-            + " LEFT CHILD : " + Heap[leftChild(i)]
-            + " RIGHT CHILD : " + Heap[rightChild(i)]);
-            System.out.println();
-        }
-    }
-
-    /**
      *  Remove and return the minimum element from heap
      */
     @Override
     public int extractMin()
     {
+        if (this.size == 0)
+            throw new NoSuchElementException("Heap is empty");
+
         int min = Heap[FRONT];
-        Heap[FRONT] = Heap[size--];
+        Heap[FRONT] = Heap[this.size--];
+
         minHeapify(FRONT);
+
         return min;
     }
 
@@ -91,85 +75,37 @@ public class MinHeap implements IMinHeap {
     }
 
     /**
-     * "Heapify" the subtree rooted at pos (maintain heap invariant)
-     * It assumes the subtree is already a correct heap
+     * "Heapify" the subtree rooted at pos (maintain min-heap invariant)
+     * It assumes the subtree is already a correct min-heap
      * @param pos subtree's root pos
      */
     private void minHeapify(int pos)
     {
+        if (pos > size) return;
+
         int l = leftChild(pos);
         int r = rightChild(pos);
 
         // If the node is a non-leaf node and greater than any of its child
         if (!isLeaf(pos))
         {
-            int largest = pos;
+            int lowest = pos;
 
-            if(Heap[pos] > Heap[l])
+            if(l <= size && Heap[lowest] > Heap[l])
             {
-                largest = l;
+                lowest = l;
             }
 
-            if(Heap[r] > Heap[largest])
+            if(r <= size && Heap[lowest] > Heap[r])
             {
-               largest = r;
+                lowest = r;
             }
 
-            swap(pos, largest);
-            minHeapify(largest);
+            if (lowest != pos)
+            {
+                swap(pos, lowest);
+                minHeapify(lowest);
+            }
         }
-    }
-
-    /**
-     *
-     * @param pos node position
-     * @return parent node
-     */
-    private int parent(int pos)
-    {
-        return pos / 2;
-    }
-
-    /**
-     *
-     * @param pos node position
-     * @return left child node
-     */
-    private int leftChild(int pos)
-    {
-        return (2 * pos);
-    }
-
-    /**
-     *
-     * @param pos node position
-     * @return right child node
-     */
-    private int rightChild(int pos)
-    {
-        return (2 * pos) + 1;
-    }
-
-    /**
-     *
-     * @param pos node position
-     * @return node is leaf (last tree level)
-     */
-    private boolean isLeaf(int pos)
-    {
-        return pos >= (size / 2) && pos <= size;
-    }
-
-    /**
-     * Swap two nodes in the tree
-     * @param fpos first node position
-     * @param spos second node position
-     */
-    private void swap(int fpos, int spos)
-    {
-        int tmp;
-        tmp = Heap[fpos];
-        Heap[fpos] = Heap[spos];
-        Heap[spos] = tmp;
     }
 }
