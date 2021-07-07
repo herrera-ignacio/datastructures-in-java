@@ -2,6 +2,9 @@ package linear.queue;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Auxiliary Space: O(N), N elements to store
+ */
 public class QueueArrayImpl implements Queue<Integer> {
     int front, rear, size;
     int capacity;
@@ -16,6 +19,7 @@ public class QueueArrayImpl implements Queue<Integer> {
     }
 
     /**
+     * Time Complexity: O(1)
      * Enqueue and item, changing rear and size "pointers".
       * @param item to enqueue
      * @return true if succeeded
@@ -34,6 +38,7 @@ public class QueueArrayImpl implements Queue<Integer> {
     }
 
     /**
+     * Time Complexity: O(1)
      * Dequeue an item, changing front and size "pointers"
      * @return removed item
      */
@@ -48,6 +53,10 @@ public class QueueArrayImpl implements Queue<Integer> {
         return item;
     }
 
+    /**
+     * Time Complexity: O(1)
+     * @return next item to removed
+     */
     @Override
     public Integer peek() {
         if (isEmpty()) System.out.println("Queue is empty");
