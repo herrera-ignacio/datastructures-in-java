@@ -22,10 +22,9 @@ public class QueueArrayImpl implements Queue<Integer> {
      * Time Complexity: O(1)
      * Enqueue and item, changing rear and size "pointers".
       * @param item to enqueue
-     * @return true if succeeded
      */
     @Override
-    public boolean add(Integer item) throws IllegalStateException {
+    public void add(Integer item) throws IllegalStateException {
         if (isFull()) throw new IllegalStateException("Queue overflow");
 
         this.rear = (this.rear + 1) % this.capacity;
@@ -33,8 +32,6 @@ public class QueueArrayImpl implements Queue<Integer> {
         this.size++;
 
         System.out.println(item + " enqueued");
-
-        return true;
     }
 
     /**

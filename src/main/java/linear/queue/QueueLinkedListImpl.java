@@ -11,10 +11,11 @@ public class QueueLinkedListImpl implements Queue<Integer> {
     }
 
     /**
+     * Enqueue item
      * Time Complexity: O(1)
      */
     @Override
-    public boolean add(Integer item) throws IllegalStateException {
+    public void add(Integer item) throws IllegalStateException {
         QNode node = new QNode(item);
 
         if (this.rear == null)
@@ -29,8 +30,6 @@ public class QueueLinkedListImpl implements Queue<Integer> {
         }
 
         System.out.println(item + " added to queue");
-
-        return true;
     }
 
     /**
@@ -49,6 +48,7 @@ public class QueueLinkedListImpl implements Queue<Integer> {
     }
 
     /**
+     * Dequeue item
      * Time Complexity: O(1)
      */
     @Override

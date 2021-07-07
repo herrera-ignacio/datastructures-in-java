@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 
 public interface Queue<T> {
     // Enqueue
-    public boolean add(T item) throws IllegalStateException;
+    public void add(T item) throws IllegalStateException;
 
     // Dequeue
     public T remove() throws NoSuchElementException;
