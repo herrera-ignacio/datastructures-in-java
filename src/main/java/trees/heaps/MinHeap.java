@@ -13,13 +13,12 @@ public class MinHeap extends BinaryHeap implements IMinHeap {
         this.Heap[0] = Integer.MIN_VALUE;
     }
 
-    @Override
-    public IMinHeap from(int[] elements) {
+    public static MinHeap from(int[] elements) {
        MinHeap minHeap = new MinHeap(elements.length);
        minHeap.Heap = elements;
        minHeap.size = elements.length;
 
-       for (int i = (size - 1) / 2; i >= 1; i--) {
+       for (int i = (minHeap.size - 1) / 2; i >= 1; i--) {
            minHeap.minHeapify(i);
        }
 
@@ -40,7 +39,7 @@ public class MinHeap extends BinaryHeap implements IMinHeap {
 
         int current = this.size;
 
-        // "Bubble up" the min
+        // "Bubble up" to appropriate position
         while (Heap[current] < Heap[parent(current)]) {
             swap(current, parent(current));
             current = parent(current);

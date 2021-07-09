@@ -2,13 +2,6 @@ package trees.heaps;
 
 public interface IMaxHeap {
     /**
-     * Factory from array
-     * @param elements nodes
-     * @return heap
-     */
-    public IMaxHeap from(int[] elements);
-
-    /**
      * Insert a node into the heap
      * @param element node
      */

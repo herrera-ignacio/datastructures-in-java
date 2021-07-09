@@ -1,5 +1,7 @@
 package trees.heaps;
 
+import java.util.NoSuchElementException;
+
 public class MaxHeap extends BinaryHeap implements IMaxHeap {
 
     public MaxHeap(int maxSize)
@@ -14,13 +16,12 @@ public class MaxHeap extends BinaryHeap implements IMaxHeap {
      * @param elements nodes
      * @return heap
      */
-    @Override
-    public IMaxHeap from(int[] elements) {
+    public static MaxHeap from(int[] elements) {
         MaxHeap maxHeap = new MaxHeap(elements.length);
         maxHeap.Heap = elements;
         maxHeap.size = elements.length;
 
-        for (int i = (size - 1) / 2; i >= 1; i--)
+        for (int i = (maxHeap.size - 1) / 2; i >= 1; i--)
             maxHeap.maxHeapify(i);
 
         return maxHeap;
@@ -33,7 +34,19 @@ public class MaxHeap extends BinaryHeap implements IMaxHeap {
      */
     @Override
     public void insert(int element) {
+        if (this.size >= maxsize)
+            throw new IllegalStateException("Heap is full");
 
+        Heap[++this.size] = element;
+
+        int current = this.size;
+
+        // "Bubble up" to appropriate position
+        while (Heap[current] > Heap[parent(current)])
+        {
+            swap(current, parent(current));
+            current = parent(current);
+        }
     }
 
     /**
@@ -41,7 +54,15 @@ public class MaxHeap extends BinaryHeap implements IMaxHeap {
      */
     @Override
     public int extractMax() {
-        return 0;
+        if (this.size == 0)
+                throw new NoSuchElementException("Heap is empty");
+
+        int max = Heap[FRONT];
+        Heap[FRONT] = Heap[this.size--];
+
+        maxHeapify(FRONT);
+
+        return max;
     }
 
     /**
@@ -51,7 +72,7 @@ public class MaxHeap extends BinaryHeap implements IMaxHeap {
      */
     @Override
     public int peekMax() {
-        return 0;
+        return Heap[FRONT];
     }
 
     /**
@@ -61,6 +82,26 @@ public class MaxHeap extends BinaryHeap implements IMaxHeap {
      */
     private void maxHeapify(int pos)
     {
+        if (pos > size) return;
 
+        int l = leftChild(pos);
+        int r = rightChild(pos);
+
+        if (!isLeaf(pos))
+        {
+            int highest = pos;
+
+            if (l <= size && Heap[highest] < Heap[l])
+                highest = l;
+
+            if (r <= size && Heap[highest] < Heap[r])
+                highest = r;
+
+            if (highest != pos)
+            {
+                swap(pos, highest);
+                maxHeapify(highest);
+            }
+        }
     }
 }
