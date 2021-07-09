@@ -3,6 +3,7 @@ package trees.heaps;
 public interface IMinHeap {
     /**
      * Insert a node into the heap
+     *
      * @param element node
      */
     public void insert(int element);
@@ -13,12 +14,13 @@ public interface IMinHeap {
     public void print();
 
     /**
-     *  Remove and return the minimum element from heap
+     * Remove and return the minimum element from heap
      */
     public int extractMin();
 
     /**
      * Return minimum element from heap without removing
+     *
      * @return minimum element value
      */
     public int peekMin();

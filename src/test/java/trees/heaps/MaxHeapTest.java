@@ -3,8 +3,8 @@ package trees.heaps;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+
+import trees.heaps.MaxHeapValidator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,26 +26,12 @@ class MaxHeapTest {
         return maxHeap;
     }
 
-    private boolean isValidMaxHeap(MaxHeap maxHeap) {
-        boolean isValid = true;
 
-        for (int i = 1; isValid && i <= (maxHeap.size - 1) / 2; i++)
-        {
-            int leftChildPos = maxHeap.leftChild(i);
-            int rightChildPos = maxHeap.rightChild(i);
-
-            if ((leftChildPos <= maxHeap.size && maxHeap.Heap[i] < maxHeap.Heap[leftChildPos]) ||
-                    (rightChildPos <= maxHeap.size && maxHeap.Heap[i] < maxHeap.Heap[rightChildPos]))
-                isValid = false;
-        }
-
-        return isValid;
-    }
 
     @Test
     void from() {
         MaxHeap maxHeap = MaxHeap.from(new int[]{5, 31, 23, 55});
-        assertTrue(isValidMaxHeap(maxHeap));
+        assertTrue(MaxHeapValidator.isValidMaxHeap(maxHeap));
     }
 
     @Test
@@ -53,7 +39,7 @@ class MaxHeapTest {
         MaxHeap maxHeap = getTestableMaxHeap();
         maxHeap.insert(30);
 
-        assertTrue(isValidMaxHeap(maxHeap));
+        assertTrue(MaxHeapValidator.isValidMaxHeap(maxHeap));
 
         Integer[] heapElements = new Integer[maxHeap.Heap.length];
         Arrays.setAll(heapElements, i -> maxHeap.Heap[i]);
@@ -69,7 +55,7 @@ class MaxHeapTest {
 
     @Test
     void peekMax() {
-       int peeked = getTestableMaxHeap().peekMax();
-       assertEquals(peeked, MAX_ELEMENT);
+        int peeked = getTestableMaxHeap().peekMax();
+        assertEquals(peeked, MAX_ELEMENT);
     }
 }

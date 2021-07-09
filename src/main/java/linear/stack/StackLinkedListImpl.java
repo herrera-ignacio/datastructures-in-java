@@ -6,42 +6,38 @@ public class StackLinkedListImpl {
     static class StackNode {
         int data;
         StackNode next;
-        StackNode(int data) { this.data = data; }
+
+        StackNode(int data) {
+            this.data = data;
+        }
     }
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return root == null;
     }
 
-    public void push(int data)
-    {
+    public void push(int data) {
         StackNode newNode = new StackNode(data);
 
-        if (root == null)
-        {
+        if (root == null) {
             root = newNode;
-        }
-        else
-        {
+        } else {
             StackNode lastRoot = root;
             root = newNode;
             newNode.next = lastRoot;
         }
     }
 
-    public int pop() throws IllegalStateException
-    {
-       if (isEmpty())
-           throw new IllegalStateException("Stack is empty");
+    public int pop() throws IllegalStateException {
+        if (isEmpty())
+            throw new IllegalStateException("Stack is empty");
 
-       int popped = root.data;
-       root = root.next;
-       return popped;
+        int popped = root.data;
+        root = root.next;
+        return popped;
     }
 
-    public int peek() throws IllegalStateException
-    {
+    public int peek() throws IllegalStateException {
         if (isEmpty())
             throw new IllegalStateException("Stack is empty");
 

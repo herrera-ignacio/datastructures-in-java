@@ -4,8 +4,7 @@ import java.util.NoSuchElementException;
 
 public class MaxHeap extends BinaryHeap implements IMaxHeap {
 
-    public MaxHeap(int maxSize)
-    {
+    public MaxHeap(int maxSize) {
         super(maxSize);
         this.Heap[0] = Integer.MAX_VALUE;
     }
@@ -42,8 +41,7 @@ public class MaxHeap extends BinaryHeap implements IMaxHeap {
         int current = this.size;
 
         // "Bubble up" to appropriate position
-        while (Heap[current] > Heap[parent(current)])
-        {
+        while (Heap[current] > Heap[parent(current)]) {
             swap(current, parent(current));
             current = parent(current);
         }
@@ -55,7 +53,7 @@ public class MaxHeap extends BinaryHeap implements IMaxHeap {
     @Override
     public int extractMax() {
         if (this.size == 0)
-                throw new NoSuchElementException("Heap is empty");
+            throw new NoSuchElementException("Heap is empty");
 
         int max = Heap[FRONT];
         Heap[FRONT] = Heap[this.size--];
@@ -78,17 +76,16 @@ public class MaxHeap extends BinaryHeap implements IMaxHeap {
     /**
      * "Heapify" the subtree rooted at pos (maintain max-heap invariant)
      * It assumes the subtree is already a correct max-heap
+     *
      * @param pos subtree's root pos
      */
-    private void maxHeapify(int pos)
-    {
+    protected void maxHeapify(int pos) {
         if (pos > size) return;
 
         int l = leftChild(pos);
         int r = rightChild(pos);
 
-        if (!isLeaf(pos))
-        {
+        if (!isLeaf(pos)) {
             int highest = pos;
 
             if (l <= size && Heap[highest] < Heap[l])
@@ -97,8 +94,7 @@ public class MaxHeap extends BinaryHeap implements IMaxHeap {
             if (r <= size && Heap[highest] < Heap[r])
                 highest = r;
 
-            if (highest != pos)
-            {
+            if (highest != pos) {
                 swap(pos, highest);
                 maxHeapify(highest);
             }

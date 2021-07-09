@@ -1,8 +1,7 @@
 package trees.heaps;
 
 public class MinHeapDemo {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         MinHeap minHeap = new MinHeap(7);
         minHeap.insert(13);
         minHeap.insert(16);

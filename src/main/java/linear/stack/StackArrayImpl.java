@@ -10,23 +10,18 @@ public class StackArrayImpl {
     }
 
     public boolean isEmpty() {
-        if (top < 0)
-        {
+        if (top < 0) {
             System.out.println("Stack underflow");
             return true;
         }
         return false;
     }
 
-    boolean push(int x)
-    {
-        if (top >= size)
-        {
+    boolean push(int x) {
+        if (top >= size) {
             System.out.println("Stack Overflow");
             return false;
-        }
-        else
-        {
+        } else {
             a[++top] = x;
             System.out.println(x + " pushed into stack");
             return true;
@@ -37,8 +32,7 @@ public class StackArrayImpl {
         return isEmpty() ? 0 : a[top--];
     }
 
-    public int peek()
-    {
+    public int peek() {
         return isEmpty() ? 0 : a[top--];
     }
 }
