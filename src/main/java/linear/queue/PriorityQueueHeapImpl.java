@@ -31,7 +31,6 @@ public class PriorityQueueHeapImpl extends MaxHeap implements PriorityQueue {
         if (priority < oldPriority) {
             this.maxHeapify(i);
         }
-
     }
 
     protected void shiftUp(int pos) {
