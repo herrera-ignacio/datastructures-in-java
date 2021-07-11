@@ -80,7 +80,38 @@ public class CircularSinglyLinkedList<T> implements LinkedList<T> {
      */
     @Override
     public void remove(int index) {
+        if (index == 0) {
+            // Remove head
+            Node<T> tail = this.getTail();
+            if (this.head != null && tail != null && this.head != tail) {
+                // Modify tail's next pointer to new head
+                this.getTail().next = this.head.next;
+                this.head = this.head.next;
+            } else {
+                this.head = null;
+            }
+        } else {
+            Node<T> prev = this.head;
+            Node<T> current = this.head.next;
+            int currentPos = 1;
 
+            while (current != null && currentPos < index) {
+                current = current.next;
+                currentPos++;
+
+                if (current == this.head) {
+                    // If we revisit head twice, then position is out of bound
+                    break;
+                }
+            }
+
+            if (currentPos < index || current == null) {
+                throw new NoSuchElementException("Index out of bound");
+            } else {
+                // We are removing a node in between others
+                prev.next = current.next;
+            }
+        }
     }
 
     /**
@@ -90,7 +121,40 @@ public class CircularSinglyLinkedList<T> implements LinkedList<T> {
      */
     @Override
     public void remove(T elem) {
+        if (this.head == null) {
+            throw new NoSuchElementException("Element not found");
+        } else if (this.head.data == elem) {
+            // Removing head
+            Node<T> tail = this.getTail();
+            if (tail == this.head) {
+                // Removing tail too
+                this.head = null;
+            } else {
+                Node<T> newHead = this.head.next;
+                if (tail != null) {
+                    tail.next = newHead;
+                }
+                this.head = newHead;
+            }
+        } else {
+            Node<T> prev = this.head;
+            Node<T> current = this.head.next;
 
+            while (current != this.head) {
+                if (current.data == elem) {
+                    break;
+                } else {
+                    prev = current;
+                    current = current.next;
+                }
+            }
+
+            if (current.data != elem) {
+                throw new NoSuchElementException("Element not found");
+            } else {
+                prev.next = current.next;
+            }
+        }
     }
 
     /**
@@ -120,10 +184,29 @@ public class CircularSinglyLinkedList<T> implements LinkedList<T> {
 
         while (node != null && currentPosition < index) {
             node = node.next;
-            index--;
+            currentPosition++;
+
+            if (node == this.head) {
+                // We are revisiting head
+                throw new NoSuchElementException("Index out of range");
+            }
         }
 
         if (node == null) throw new NoSuchElementException("Index out of range");
         else return node.data;
+    }
+
+    private Node<T> getTail() {
+        if (this.head == null) {
+            return null;
+        } else {
+            Node<T> current = this.head;
+
+            while (current.next != this.head) {
+                current = current.next;
+            }
+
+            return current;
+        }
     }
 }

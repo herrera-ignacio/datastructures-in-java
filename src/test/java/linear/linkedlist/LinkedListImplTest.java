@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,12 +65,76 @@ class LinkedListImplTest {
         assertEquals(1, (int) list.get(2));
     }
 
-    @Test
-    void remove() {
+    @ParameterizedTest
+    @MethodSource("implementationsToTest")
+    void removeOnlyNodeByIndex(LinkedList<Integer> list) {
+        list.add(1);
+        list.remove(0);
+        assertThrows(NoSuchElementException.class, () -> { list.get(0); });
     }
 
-    @Test
-    void testRemove() {
+    @ParameterizedTest
+    @MethodSource("implementationsToTest")
+    void removeHeadByIndex(LinkedList<Integer> list) {
+        list.add(1);
+        list.add(2);
+        list.remove(0);
+        assertEquals(2, (int) list.get(0));
+        assertThrows(NoSuchElementException.class, () -> { list.get(1); });
+    }
+
+    @ParameterizedTest
+    @MethodSource("implementationsToTest")
+    void removeTailByIndex(LinkedList<Integer> list) {
+        list.add(1);
+        list.add(2);
+        list.remove(1);
+        assertEquals(1, (int) list.get(0));
+        assertThrows(NoSuchElementException.class, () -> { list.get(1); });
+    }
+
+    @ParameterizedTest
+    @MethodSource("implementationsToTest")
+    void removeInBetweenNodeByIndex(LinkedList<Integer> list) {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.remove(1);
+        assertEquals(1, (int) list.get(0));
+        assertEquals(3, (int) list.get(1));
+        assertThrows(NoSuchElementException.class, () -> { list.get(3); });
+    }
+
+    @ParameterizedTest
+    @MethodSource("implementationsToTest")
+    void removeHeadByValue(LinkedList<Integer> list) {
+        list.add(1);
+        list.add(2);
+        list.remove(Integer.valueOf(1));
+        assertEquals(2, (int) list.get(0));
+        assertThrows(NoSuchElementException.class, () -> { list.get(1); });
+    }
+
+    @ParameterizedTest
+    @MethodSource("implementationsToTest")
+    void removeTailByValue(LinkedList<Integer> list) {
+        list.add(1);
+        list.add(2);
+        list.remove(Integer.valueOf(2));
+        assertEquals(1, (int) list.get(0));
+        assertThrows(NoSuchElementException.class, () -> { list.get(1); });
+    }
+
+    @ParameterizedTest
+    @MethodSource("implementationsToTest")
+    void removeInBetweenNodeByValue(LinkedList<Integer> list) {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.remove(Integer.valueOf(2));
+        assertEquals(1, (int) list.get(0));
+        assertEquals(3, (int) list.get(1));
+        assertThrows(NoSuchElementException.class, () -> { list.get(3); });
     }
 
     @ParameterizedTest

@@ -27,10 +27,8 @@ public class DoublyLinkedList<T> implements LinkedList<T> {
     public void add(T elem) {
         Node<T> node = new Node<T>(elem);
 
-        // Make node the tail
-        node.prev = this.tail;
-
         if (this.tail != null) {
+            node.prev = this.tail;
             this.tail.next = node;
         }
 
@@ -52,9 +50,8 @@ public class DoublyLinkedList<T> implements LinkedList<T> {
         Node<T> node = new Node<T>(elem);
 
         // Make node the new head
-        node.next = this.head;
-
         if (this.head != null) {
+            node.next = this.head;
             this.head.prev = node;
         }
 
@@ -73,7 +70,39 @@ public class DoublyLinkedList<T> implements LinkedList<T> {
      */
     @Override
     public void remove(int index) {
+        if (index == 0) {
+            // We are removing head
+            if (this.tail == this.head) {
+                // We are also removing tail
+                this.tail = null;
+                this.head = null;
+            } else {
+                this.head = this.head.next;
+            }
+        } else {
+            Node<T> current = this.head.next;
+            int currentPos = 1;
 
+            while (current != null && currentPos < index) {
+                current = current.next;
+                currentPos++;
+            }
+
+            if (currentPos < index || current == null) {
+                throw new NoSuchElementException("Index out of bound");
+            } else {
+                if (current.next == null) {
+                    // We are removing tail
+                    this.tail = current.prev;
+                    current.prev.next = null;
+                } else {
+                    // We are removing a node in between others
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
+                }
+
+            }
+        }
     }
 
     /**
@@ -83,7 +112,42 @@ public class DoublyLinkedList<T> implements LinkedList<T> {
      */
     @Override
     public void remove(T elem) {
+        if (this.head == null) {
+            throw new NoSuchElementException("Element not found");
+        } else {
+            Node<T> current = this.head;
 
+            while (current != null) {
+                if (current.data == elem) {
+                    break;
+                } else {
+                    current = current.next;
+                }
+            }
+
+            if (current == null) {
+                throw new NoSuchElementException("Element not found");
+            } else if (current == this.head) {
+                // Removing head
+                if (this.tail == this.head) {
+                    // We are also removing tail
+                    this.tail = null;
+                    this.head = null;
+                } else {
+                    this.head = this.head.next;
+                }
+            } else {
+                if (current.next == null) {
+                    // We are removing tail
+                    this.tail = current.prev;
+                    current.prev.next = null;
+                } else {
+                    // We are removing a node in between others
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
+                }
+            }
+        }
     }
 
     /**
@@ -112,7 +176,7 @@ public class DoublyLinkedList<T> implements LinkedList<T> {
 
         while (node != null && currentPosition < index) {
             node = node.next;
-            index--;
+            currentPosition++;
         }
 
         if (node == null) throw new NoSuchElementException("Index out of range");
