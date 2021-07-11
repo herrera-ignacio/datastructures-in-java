@@ -71,14 +71,7 @@ public class DoublyLinkedList<T> implements LinkedList<T> {
     @Override
     public void remove(int index) {
         if (index == 0) {
-            // We are removing head
-            if (this.tail == this.head) {
-                // We are also removing tail
-                this.tail = null;
-                this.head = null;
-            } else {
-                this.head = this.head.next;
-            }
+           this.removeHead();
         } else {
             Node<T> current = this.head.next;
             int currentPos = 1;
@@ -93,8 +86,7 @@ public class DoublyLinkedList<T> implements LinkedList<T> {
             } else {
                 if (current.next == null) {
                     // We are removing tail
-                    this.tail = current.prev;
-                    current.prev.next = null;
+                    this.removeTail();
                 } else {
                     // We are removing a node in between others
                     current.prev.next = current.next;
@@ -128,19 +120,11 @@ public class DoublyLinkedList<T> implements LinkedList<T> {
             if (current == null) {
                 throw new NoSuchElementException("Element not found");
             } else if (current == this.head) {
-                // Removing head
-                if (this.tail == this.head) {
-                    // We are also removing tail
-                    this.tail = null;
-                    this.head = null;
-                } else {
-                    this.head = this.head.next;
-                }
+                this.removeHead();
             } else {
                 if (current.next == null) {
                     // We are removing tail
-                    this.tail = current.prev;
-                    current.prev.next = null;
+                    this.removeTail();
                 } else {
                     // We are removing a node in between others
                     current.prev.next = current.next;
@@ -181,5 +165,33 @@ public class DoublyLinkedList<T> implements LinkedList<T> {
 
         if (node == null) throw new NoSuchElementException("Index out of range");
         else return node.data;
+    }
+
+    private void removeHead() {
+        if (this.head == null) throw new NoSuchElementException("List is empty");
+
+        if (this.tail == this.head) {
+            // List has only one element
+            this.tail = null;
+            this.head = null;
+        } else {
+            // List has more than one element
+            this.head.next.prev = null;
+            this.head = this.head.next;
+        }
+    }
+
+    private void removeTail() {
+        if (this.tail == null) throw new NoSuchElementException("List is empty");
+
+        if (this.tail == this.head) {
+            // List has a single element
+            this.tail = null;
+            this.head = null;
+        } else {
+            // List has more than one element
+            this.tail.prev.next = null;
+            this.tail = this.tail.prev;
+        }
     }
 }

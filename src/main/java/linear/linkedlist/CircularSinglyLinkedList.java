@@ -81,15 +81,7 @@ public class CircularSinglyLinkedList<T> implements LinkedList<T> {
     @Override
     public void remove(int index) {
         if (index == 0) {
-            // Remove head
-            Node<T> tail = this.getTail();
-            if (this.head != null && tail != null && this.head != tail) {
-                // Modify tail's next pointer to new head
-                this.getTail().next = this.head.next;
-                this.head = this.head.next;
-            } else {
-                this.head = null;
-            }
+            this.removeHead();
         } else {
             Node<T> prev = this.head;
             Node<T> current = this.head.next;
@@ -108,7 +100,7 @@ public class CircularSinglyLinkedList<T> implements LinkedList<T> {
             if (currentPos < index || current == null) {
                 throw new NoSuchElementException("Index out of bound");
             } else {
-                // We are removing a node in between others
+                // Removing a node in between others
                 prev.next = current.next;
             }
         }
@@ -122,20 +114,9 @@ public class CircularSinglyLinkedList<T> implements LinkedList<T> {
     @Override
     public void remove(T elem) {
         if (this.head == null) {
-            throw new NoSuchElementException("Element not found");
+            throw new NoSuchElementException("List is empty");
         } else if (this.head.data == elem) {
-            // Removing head
-            Node<T> tail = this.getTail();
-            if (tail == this.head) {
-                // Removing tail too
-                this.head = null;
-            } else {
-                Node<T> newHead = this.head.next;
-                if (tail != null) {
-                    tail.next = newHead;
-                }
-                this.head = newHead;
-            }
+            this.removeHead();
         } else {
             Node<T> prev = this.head;
             Node<T> current = this.head.next;
@@ -196,6 +177,33 @@ public class CircularSinglyLinkedList<T> implements LinkedList<T> {
         else return node.data;
     }
 
+    /**
+     * Remove the head node
+     */
+    private void removeHead() {
+        if (this.head == null)
+            throw new NoSuchElementException("Element not found");
+
+        Node<T> tail = this.getTail();
+
+        if (tail == this.head) {
+            // Removing tail too
+            this.head = null;
+        } else {
+            // Update tail's next pointer to point the new head
+            Node<T> newHead = this.head.next;
+            if (tail != null) {
+                tail.next = newHead;
+            }
+            this.head = newHead;
+        }
+    }
+
+    /**
+     * Get reference to the last node (tail)
+     *
+     * @return tail Node
+     */
     private Node<T> getTail() {
         if (this.head == null) {
             return null;
